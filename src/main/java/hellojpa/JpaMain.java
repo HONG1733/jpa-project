@@ -1,7 +1,7 @@
 package hellojpa;
 
 import javax.persistence.*;
-import java.util.List;
+import java.time.LocalDateTime;
 
 public class JpaMain {
 
@@ -16,9 +16,19 @@ public class JpaMain {
         try {
 
             Member member = new Member();
-            member.setUsername("C");
+            member.setUsername("hello");
 
             em.persist(member);
+
+            em.flush();
+            em.clear();
+
+            //
+//            Member findMember = em.find(Member.class, member.getId());
+            Member findMember = em.getReference(Member.class, member.getId());
+            System.out.println("findMember = " + findMember.getClass());
+            System.out.println("findMember.Id() = " + findMember.getId());
+            System.out.println("findMember.username = " + findMember.getUsername());
 
             tx.commit();
         } catch (Exception e) {
